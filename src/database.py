@@ -1,9 +1,34 @@
 import sqlite3
+import os
+
+
+BASE_DIR = os.path.dirname(
+    os.path.dirname(
+        os.path.abspath(__file__)
+    )
+)
+
+DATABASE_DIR = os.path.join(
+    BASE_DIR,
+    "database"
+)
+
+DB_PATH = os.path.join(
+    DATABASE_DIR,
+    "travel.db"
+)
 
 
 def create_database():
 
-    conn = sqlite3.connect("database/travel.db")
+    os.makedirs(
+        DATABASE_DIR,
+        exist_ok=True
+    )
+
+    conn = sqlite3.connect(
+        DB_PATH
+    )
 
     cursor = conn.cursor()
 
@@ -15,7 +40,7 @@ def create_database():
         password TEXT NOT NULL
     )
     """)
-    
+
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS locations(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,7 +58,7 @@ def create_database():
         REFERENCES users(user_id)
     )
     """)
-    
+
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS place_names(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -47,8 +72,18 @@ def create_database():
     conn.close()
 
 
+def get_connection():
+
+    print("\nDATABASE PATH =", DB_PATH)
+
+    return sqlite3.connect(
+        DB_PATH
+    )
+
+
 if __name__ == "__main__":
 
     create_database()
 
     print("Database Created Successfully")
+

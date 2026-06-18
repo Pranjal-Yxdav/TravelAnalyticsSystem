@@ -12,7 +12,7 @@ def import_user_data(
     csv_path
 ):
 
-    import_csv(
+    imported_records = import_csv(
         csv_path,
         user_id
     )
@@ -26,5 +26,5 @@ def import_user_data(
         user_name
     )
 
-    return True
+    return imported_records
 

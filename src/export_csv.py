@@ -1,6 +1,7 @@
-import sqlite3
 import pandas as pd
 import os
+
+from database import get_connection
 
 
 def export_results(
@@ -8,9 +9,7 @@ def export_results(
     user_name
 ):
 
-    conn = sqlite3.connect(
-        "database/travel.db"
-    )
+    conn = get_connection()
 
     query = """
     SELECT

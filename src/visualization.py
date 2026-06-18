@@ -30,11 +30,7 @@ def generate_chart(user_id):
 
     if len(rows) == 0:
 
-        print(
-            "No data available for chart."
-        )
-
-        return
+        return None
 
     places = []
     visits = []
@@ -49,32 +45,32 @@ def generate_chart(user_id):
             count
         )
 
-    plt.figure(
-        figsize=(14, 7)
+    fig, ax = plt.subplots(
+        figsize=(10, 5)
     )
 
-    plt.bar(
+    ax.bar(
         places,
         visits
     )
 
-    plt.title(
-        "All Visited Places"
+    ax.set_title(
+        "Visited Places"
     )
 
-    plt.xlabel(
+    ax.set_xlabel(
         "Places"
     )
 
-    plt.ylabel(
+    ax.set_ylabel(
         "Visits"
     )
 
     plt.xticks(
-        rotation=75,
+        rotation=45,
         ha="right"
     )
 
     plt.tight_layout()
 
-    plt.show()
+    return fig

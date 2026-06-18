@@ -87,24 +87,9 @@ def import_csv(csv_file, user_id):
 
     conn.commit()
 
-    cursor.execute("""
-    SELECT COUNT(*)
-    FROM locations
-    WHERE user_id = ?
-    """,
-    (user_id,))
-
-    total_records = cursor.fetchone()[0]
-
     conn.close()
 
-    print(
-        f"Imported: {imported_count} records"
-    )
-
-    print(
-        f"Total Records: {total_records}"
-    )
+    return imported_count
 
 
 def generate_places(user_id):
@@ -303,3 +288,25 @@ def user_history(user_id):
     conn.close()
 
     return rows
+
+
+def dashboard_data(user_id):
+
+    place = most_visited(
+        user_id
+    )
+
+    return {
+        "records": total_records(
+            user_id
+        ),
+        "places": unique_places(
+            user_id
+        ),
+        "distance": calculate_distance(
+            user_id
+        ),
+        "most_visited": place[0] if place else "N/A",
+        "visits": place[1] if place else 0
+    }
+
