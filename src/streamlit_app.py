@@ -10,7 +10,12 @@ from analytics import (
     user_history
 )
 from export_csv import export_results
-from visualization import generate_chart
+from visualization import (
+    generate_chart,
+    generate_pie_chart,
+    generate_line_chart,
+    generate_horizontal_chart
+)
 from map_generator import generate_map
 from streamlit_folium import st_folium
 
@@ -38,53 +43,121 @@ visibility:hidden;
 padding-top:1rem;
 }
 
-.metric-card{
-background:#1E293B;
-padding:20px;
-border-radius:15px;
-text-align:center;
-box-shadow:0px 0px 10px rgba(0,0,0,0.3);
+/* Sidebar */
+
+section[data-testid="stSidebar"]{
+background:linear-gradient(
+180deg,
+#2563EB,
+#1D4ED8
+);
 }
 
-.metric-title{
-font-size:16px;
-color:#94A3B8;
-}
+/* Dashboard Cards */
 
-.metric-value{
-font-size:32px;
-font-weight:bold;
-color:white;
-}
-            
 .metric-card{
-background:linear-gradient(135deg,#1E293B,#334155);
-padding:20px;
-border-radius:18px;
+background:linear-gradient(
+135deg,
+#2563EB,
+#06B6D4
+);
+padding:25px;
+border-radius:20px;
 text-align:center;
 transition:all 0.3s ease;
-box-shadow:0px 5px 15px rgba(0,0,0,0.25);
+box-shadow:0px 8px 20px rgba(37,99,235,0.25);
 }
 
 .metric-card:hover{
 transform:translateY(-8px);
-box-shadow:0px 15px 30px rgba(37,99,235,0.4);
+box-shadow:0px 15px 35px rgba(6,182,212,0.45);
 }
+
+.metric-title{
+font-size:16px;
+color:white;
+opacity:0.9;
+}
+
+.metric-value{
+font-size:34px;
+font-weight:bold;
+color:white;
+}
+
+/* Buttons */
 
 .stButton > button{
 width:100%;
 border-radius:12px;
 font-weight:bold;
 transition:0.3s;
+background:linear-gradient(
+90deg,
+#2563EB,
+#06B6D4
+);
+color:white;
+border:none;
 }
 
 .stButton > button:hover{
 transform:scale(1.03);
-box-shadow:0px 0px 15px rgba(59,130,246,0.5);
+box-shadow:0px 0px 18px rgba(6,182,212,0.5);
+}
+
+/* DataFrame */
+
+[data-testid="stDataFrame"]{
+border-radius:15px;
+overflow:hidden;
+}
+
+/* Metrics */
+
+[data-testid="metric-container"]{
+background:#1E293B;
+padding:10px;
+border-radius:15px;
+}
+
+/* Tabs */
+
+.stTabs [data-baseweb="tab"]{
+font-size:16px;
+font-weight:bold;
+padding:10px 20px;
+border-radius:10px;
+}
+
+.stTabs [aria-selected="true"]{
+background:#2563EB;
+color:white;
+}
+
+/* Upload Area */
+
+[data-testid="stFileUploader"]{
+background:#1E293B;
+padding:15px;
+border-radius:15px;
+}
+
+/* Success Messages */
+
+.stAlert{
+border-radius:15px;
+}
+
+/* Smooth Animation */
+
+html{
+scroll-behavior:smooth;
 }
 
 </style>
 """, unsafe_allow_html=True)
+
 
 
 if "user_id" not in st.session_state:
@@ -96,20 +169,17 @@ if "user_name" not in st.session_state:
 if "menu" not in st.session_state: 
     st.session_state.menu = "📝 Register"
 
-st.markdown("""
+st.markdown(f"""
 <div style="
-padding:25px;
-border-radius:20px;
-background:linear-gradient(90deg,#0F172A,#1E293B);
+padding:20px;
+border-radius:15px;
+background:linear-gradient(90deg,#8B5CF6,#EC4899);
+color:white;
 text-align:center;
 margin-bottom:20px;
 ">
-<h1 style="color:white;">
-🌍 Travel Analytics Dashboard
-</h1>
-<p style="color:#CBD5E1;">
-Track • Analyze • Visualize Travel Data
-</p>
+<h2>Welcome, {st.session_state.user_name} 👋</h2>
+<p>Explore your travel insights and analytics.</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -377,15 +447,40 @@ elif menu == "📁 Import CSV":
 
 elif menu == "📈 Charts":
 
-    fig = generate_chart(
-        st.session_state.user_id
+    tab1, tab2, tab3 = st.tabs(
+        [
+            "Bar Chart",
+            "Pie Chart",
+            "Line Chart"
+        ]
     )
 
-    if fig:
+    with tab1:
 
-        st.pyplot(
-            fig
+        fig = generate_chart(
+            st.session_state.user_id
         )
+
+        if fig:
+            st.pyplot(fig)
+
+    with tab2:
+
+        fig = generate_pie_chart(
+            st.session_state.user_id
+        )
+
+        if fig:
+            st.pyplot(fig)
+
+    with tab3:
+
+        fig = generate_line_chart(
+            st.session_state.user_id
+        )
+
+        if fig:
+            st.pyplot(fig)
 
 elif menu == "🗺️ Map":
 
