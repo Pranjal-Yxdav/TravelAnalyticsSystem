@@ -56,6 +56,32 @@ font-size:32px;
 font-weight:bold;
 color:white;
 }
+            
+.metric-card{
+background:linear-gradient(135deg,#1E293B,#334155);
+padding:20px;
+border-radius:18px;
+text-align:center;
+transition:all 0.3s ease;
+box-shadow:0px 5px 15px rgba(0,0,0,0.25);
+}
+
+.metric-card:hover{
+transform:translateY(-8px);
+box-shadow:0px 15px 30px rgba(37,99,235,0.4);
+}
+
+.stButton > button{
+width:100%;
+border-radius:12px;
+font-weight:bold;
+transition:0.3s;
+}
+
+.stButton > button:hover{
+transform:scale(1.03);
+box-shadow:0px 0px 15px rgba(59,130,246,0.5);
+}
 
 </style>
 """, unsafe_allow_html=True)
@@ -224,6 +250,20 @@ elif menu == "📊 Dashboard":
         st.session_state.user_id
     )
 
+    st.markdown(f"""
+    <div style="
+    padding:20px;
+    border-radius:15px;
+    background:linear-gradient(90deg,#2563EB,#1D4ED8);
+    color:white;
+    text-align:center;
+    margin-bottom:20px;
+    ">
+    <h2>Welcome, {st.session_state.user_name} 👋</h2>
+    <p>Explore your travel insights and analytics.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
     col1,col2,col3,col4 = st.columns(4)
 
     with col1:
@@ -318,18 +358,22 @@ elif menu == "📁 Import CSV":
 
     if uploaded_file:
 
-        import_csv(
-            uploaded_file,
-            st.session_state.user_id
-        )
+        with st.spinner("Processing Travel Data..."):
 
-        generate_places(
-            st.session_state.user_id
-        )
+            import_csv(
+                uploaded_file,
+                st.session_state.user_id
+            )
 
-        st.success(
-            "Data Imported Successfully"
-        )
+            generate_places(
+                st.session_state.user_id
+            )
+
+            st.success(
+                "Data Imported Successfully"
+            )
+
+            st.balloons()
 
 elif menu == "📈 Charts":
 
@@ -385,3 +429,9 @@ elif menu == "🚪 Logout":
 
     st.rerun()
 
+st.markdown("""
+<hr>
+<center>
+🌍 Travel Analytics Dashboard • Built with Python, Streamlit, Folium & SQLite
+</center>
+""", unsafe_allow_html=True)

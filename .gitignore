@@ -1,4 +1,13 @@
-database/travel.db
+```text
 __pycache__/
 *.pyc
+
+database/travel.db
+
 reports/
+
+.venv/
+venv/
+
+.streamlit/secrets.toml
+```

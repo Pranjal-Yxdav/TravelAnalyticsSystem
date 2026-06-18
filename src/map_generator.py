@@ -21,9 +21,6 @@ def generate_map(user_id):
 
     rows = cursor.fetchall()
 
-    print("USER ID =", user_id)
-    print("ROWS =", rows)
-
     conn.close()
 
     if len(rows) == 0:
@@ -35,25 +32,33 @@ def generate_map(user_id):
             rows[0][0],
             rows[0][1]
         ],
-        zoom_start=10
+        zoom_start=10,
+        tiles="CartoDB Positron"
     )
 
     folium.PolyLine(
         rows,
-        weight=5,
+        weight=4,
         color="blue"
     ).add_to(travel_map)
 
-    for lat, lon in rows:
+    folium.Marker(
+        rows[0],
+        popup="🚀 Start",
+        icon=folium.Icon(color="green")
+    ).add_to(travel_map)
 
-        folium.CircleMarker(
-            location=[lat, lon],
-            radius=6,
-            color="red",
-            fill=True,
-            fill_color="red",
-            fill_opacity=0.9,
-            tooltip=f"{lat}, {lon}"
+    folium.Marker(
+        rows[-1],
+        popup="🏁 End",
+        icon=folium.Icon(color="red")
+    ).add_to(travel_map)
+
+    for lat, lon in rows[1:-1]:
+
+        folium.Marker(
+            [lat, lon],
+            popup=f"{lat}, {lon}"
         ).add_to(travel_map)
 
     return travel_map
