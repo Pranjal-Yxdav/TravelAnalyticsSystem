@@ -41,19 +41,25 @@ def generate_map(user_id):
         weight=4,
         color="blue"
     ).add_to(travel_map)
-
-    folium.Marker(
-        rows[0],
-        popup="🚀 Start",
-        icon=folium.Icon(color="green")
+    
+    folium.CircleMarker(
+        location=rows[0],
+        radius=10,
+        color="green",
+        fill=True,
+        fill_color="green",
+        popup="🚀 Start"
     ).add_to(travel_map)
-
-    folium.Marker(
-        rows[-1],
-        popup="🏁 End",
-        icon=folium.Icon(color="red")
+    
+    folium.CircleMarker(
+        location=rows[-1],
+        radius=10,
+        color="red",
+        fill=True,
+        fill_color="red",
+        popup="🏁 End"
     ).add_to(travel_map)
-
+    
     for lat, lon in rows[1:-1]:
 
         folium.CircleMarker(
