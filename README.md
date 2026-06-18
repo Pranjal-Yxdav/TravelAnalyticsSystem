@@ -1,20 +1,27 @@
+# Travel Analytics Dashboard
 
-A Python project for travel analytics using:
+A Streamlit-based Travel Analytics System that allows users to:
+
+- Register and Login
+- Import GPS Travel Data (CSV)
+- Analyze Travel Patterns
+- Visualize Travel Routes
+- Generate Interactive Maps
+- View Multiple Analytics Charts
+- Export Reports
+
+## Technologies Used
 
 - Python
+- Streamlit
 - SQLite
-- CustomTkinter
-- Pandas
 - Folium
-- Geopy
+- Pandas
 - Matplotlib
+- Geopy
 
-Features:
-- User Registration & Login
-- CSV Import
-- Distance Analysis
-- Most Visited Place Detection
-- Interactive Maps
-- Travel Reports
-- CSV Export
-- Multi-user Support
+
+
+pip install -r requirements.txt
+
+streamlit run src/streamlit_app.py
