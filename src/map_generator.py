@@ -56,8 +56,13 @@ def generate_map(user_id):
 
     for lat, lon in rows[1:-1]:
 
-        folium.Marker(
-            [lat, lon],
+        folium.CircleMarker(
+            location=[lat, lon],
+            radius=6,
+            color="blue",
+            fill=True,
+            fill_color="blue",
+            fill_opacity=0.8,
             popup=f"{lat}, {lon}"
         ).add_to(travel_map)
 
